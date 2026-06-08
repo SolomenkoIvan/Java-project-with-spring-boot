@@ -2,7 +2,7 @@ name: Java CI with Maven
 
 on:
   push:
-    branches: [ "main" ] # Спрацьовує при пуші в main
+    branches: [ "main" ]
 
 jobs:
   build:
@@ -20,4 +20,4 @@ jobs:
           cache: 'maven'
 
       - name: Build and Run Tests
-        run: mvn test -Dmaven.test.skip=false
+        run: mvn test

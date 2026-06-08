@@ -6,7 +6,7 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class RabbitConfig {
-    public static final String QUEUE_NAME = "book_notifications";
+    public static final String QUEUE_NAME = "book_queue";
 
     @Bean
     public Queue queue() {

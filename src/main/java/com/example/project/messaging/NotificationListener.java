@@ -8,10 +8,8 @@ import org.springframework.stereotype.Component;
 public class NotificationListener {
 
     @RabbitListener(queues = RabbitConfig.QUEUE_NAME)
-    public void listen(String message) {
-        System.out.println("******************************************");
-        System.out.println(" [RabbitMQ] ОТРИМАНО: " + message);
-        System.out.println(" [RabbitMQ] Надсилаємо email-сповіщення...");
-        System.out.println("******************************************");
+    public void receive(String message) {
+        System.out.println(" [RabbitMQ] ОТРИМАНО ПОВІДОМЛЕННЯ: " + message);
+        System.out.println(" [RabbitMQ] Надсилаємо email-сповіщення про нову книгу...");
     }
 }

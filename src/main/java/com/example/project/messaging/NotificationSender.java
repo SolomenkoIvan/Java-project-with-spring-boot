@@ -11,7 +11,6 @@ public class NotificationSender {
     private final RabbitTemplate rabbitTemplate;
 
     public void sendNotification(String message) {
-        System.out.println(" [RabbitMQ] ВІДПРАВКА: " + message);
         rabbitTemplate.convertAndSend(RabbitConfig.QUEUE_NAME, message);
     }
 }
