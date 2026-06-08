@@ -8,7 +8,6 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
-    # Запускаємо PostgreSQL через Docker в GitHub Actions
     services:
       postgres:
         image: postgres:15
@@ -19,7 +18,7 @@ jobs:
         ports:
           - 5432:5432
         options: >-
-          --health-cmd pg_isready
+          --health-cmd "pg_isready -U postgres -d testdb"
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
@@ -36,11 +35,10 @@ jobs:
           cache: 'maven'
 
       - name: Build and Run Tests
-        # Додано прапорець -e для детального виводу помилок, якщо вони виникнуть
+        # Додаємо таймаут підключення до БД безпосередньо у строку підключення
         run: mvn test -e
         env:
-          # Перевизначаємо змінні оточення Spring Boot під тестову базу в GitHub
-          SPRING_DATASOURCE_URL: jdbc:postgresql://localhost:5432/testdb
+          SPRING_DATASOURCE_URL: jdbc:postgresql://localhost:5432/testdb?connectTimeout=10&socketTimeout=10
           SPRING_DATASOURCE_USERNAME: postgres
           SPRING_DATASOURCE_PASSWORD: password
           SPRING_JPA_HIBERNATE_DDL_AUTO: update
