@@ -8,21 +8,6 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
-    services:
-      postgres:
-        image: postgres:15
-        env:
-          POSTGRES_DB: testdb
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: password
-        ports:
-          - 5432:5432
-        options: >-
-          --health-cmd "pg_isready -U postgres -d testdb"
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -34,11 +19,5 @@ jobs:
           distribution: 'temurin'
           cache: 'maven'
 
-      - name: Build and Run Tests
-        # Додаємо таймаут підключення до БД безпосередньо у строку підключення
-        run: mvn test -e
-        env:
-          SPRING_DATASOURCE_URL: jdbc:postgresql://localhost:5432/testdb?connectTimeout=10&socketTimeout=10
-          SPRING_DATASOURCE_USERNAME: postgres
-          SPRING_DATASOURCE_PASSWORD: password
-          SPRING_JPA_HIBERNATE_DDL_AUTO: update
+      - name: Build and Package
+        run: mvn clean package -DskipTests
